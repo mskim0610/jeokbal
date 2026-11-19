@@ -1,0 +1,16 @@
+{
+  "name": "적발! 시험 감독관",
+  "short_name": "적발!",
+  "description": "AI 글라스로 커닝하는 수험생을 잡아서 감옥으로 보내는 게임",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#56645c",
+  "theme_color": "#f4f1e8",
+  "lang": "ko",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
