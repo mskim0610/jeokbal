@@ -86,6 +86,19 @@ body{font-family:var(--body);color:var(--ink);overflow:hidden;-webkit-tap-highli
 .btn.small{font-size:16px;padding:10px 12px 8px}
 .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
 .best{font-size:12.5px;text-align:center;margin:0}
+.diff{border-top:1.5px solid var(--ink);padding-top:10px;display:flex;flex-direction:column;gap:7px}
+.diff-h{font-family:var(--exam);font-weight:800;font-size:13px}
+.diff-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.omr{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;padding:9px 4px 8px;border:1.5px solid #d9b9b4;border-radius:4px;cursor:pointer;text-align:center;background:transparent}
+.omr input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.bubble{width:17px;height:27px;border:1.6px solid #d0453c;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#d0453c;line-height:1}
+.omr input:checked + .bubble{background:var(--ink);border-color:var(--ink);color:transparent}
+.omr input:focus-visible + .bubble{outline:3px solid var(--signal);outline-offset:2px}
+.omr:has(input:checked){border-color:var(--ink);background:#fff}
+.omr b{font-size:14px;line-height:1.2}
+.omr small{font-size:11px;color:#565d59;line-height:1.3}
+.linkbtn{background:none;border:0;padding:4px;font:inherit;font-size:13px;font-weight:600;color:#3d4440;text-decoration:underline;text-underline-offset:3px;cursor:pointer;align-self:center}
+.linkbtn:focus-visible{outline:3px solid var(--signal);outline-offset:2px}
 .best b{font-variant-numeric:tabular-nums}
 
 .exam-head{display:flex;align-items:center;gap:8px;font-family:var(--exam);font-weight:800;font-size:18px;border-bottom:3px double var(--ink);padding-bottom:8px}
@@ -125,6 +138,18 @@ body{font-family:var(--body);color:var(--ink);overflow:hidden;-webkit-tap-highli
 .btnrow .btn{flex:1}
 #copyFallback{width:100%;font:inherit;font-size:12px;padding:6px;border:1.5px solid var(--ink)}
 
+@media (max-height: 720px){
+  .card{padding:14px 16px;gap:9px}
+  .title .stamp{font-size:44px;border-width:3px;padding:5px 12px 1px;margin:4px 0 0 4px}
+  .title .t2{font-size:28px}
+  .lead{font-size:13.5px;line-height:1.45}
+  .rules{gap:5px;font-size:12.5px;padding-top:8px}
+  .diff{padding-top:8px;gap:5px}
+  .omr{padding:6px 4px 5px;gap:3px}
+  .omr small{font-size:10.5px}
+  .btn{padding:10px 14px 8px;font-size:19px}
+  #demo{height:150px}
+}
 @media (prefers-reduced-motion: reduce){
   #slam.show{animation:none;opacity:1;transform:translate(-50%,-50%) rotate(-9deg)}
   .bar.low i,#jail.pulse svg{animation:none}
@@ -161,14 +186,22 @@ body{font-family:var(--body);color:var(--ink);overflow:hidden;-webkit-tap-highli
     <div class="card">
       <div class="meta"><span class="box">감독관 연수</span><span>4교시 + 무한 연장</span></div>
       <h1 class="title"><span class="stamp">적발!</span><span class="t2">시험 감독관</span></h1>
-      <p class="lead">AI 글라스, 휴대폰, 커닝페이퍼. 수상한 순간 그 학생을 터치해 감옥으로 보내세요. 커닝은 1~2초면 끝나요.</p>
+      <p class="lead">AI 글라스, 휴대폰, 커닝페이퍼. 수상한 순간 그 학생을 터치해 감옥으로 보내세요.</p>
       <ul class="rules">
         <li><span class="dot cyan"></span><span>파랗게 빛나거나 수상하게 움직이면 즉시 터치해 적발. 교시가 올라갈수록 불빛이 사라져요</span></li>
         <li><span class="dot red"></span><span>멀쩡한 학생을 찌르면 민원 접수, 공정성이 깎여요</span></li>
         <li><span class="dot gray"></span><span>놓쳐도 공정성 하락. 0이 되면 시험장 폐쇄</span></li>
       </ul>
+      <div class="diff" role="radiogroup" aria-label="난이도">
+        <div class="diff-h">난이도 (컴퓨터용 사인펜으로 마킹)</div>
+        <div class="diff-row">
+          <label class="omr"><input type="radio" name="diff" value="easy"><span class="bubble">1</span><b>쉬움</b><small>12명<br>커닝이 느려요</small></label>
+          <label class="omr"><input type="radio" name="diff" value="normal"><span class="bubble">2</span><b>보통</b><small>20명<br>기본 속도</small></label>
+          <label class="omr"><input type="radio" name="diff" value="hard"><span class="bubble">3</span><b>어려움</b><small>24명<br>점수 ×1.4</small></label>
+        </div>
+      </div>
       <button id="startBtn" class="btn primary" type="button">감독 시작</button>
-      <p class="best">최고 기록 <b id="bestTxt">0</b>점</p>
+      <p class="best"><span id="bestDiff">보통</span> 최고 기록 <b id="bestTxt">0</b>점</p>
     </div>
   </div>
 
@@ -219,6 +252,7 @@ body{font-family:var(--body);color:var(--ink);overflow:hidden;-webkit-tap-highli
         <button id="againBtn" class="btn primary small" type="button">다시 감독하기</button>
         <button id="copyBtn" class="btn small" type="button">도전장 보내기</button>
       </div>
+      <button id="diffBtn" class="linkbtn" type="button">난이도 바꾸기</button>
     </section>
   </div>
 </div>
@@ -249,7 +283,14 @@ const store = {
   get(k, d){ try { const v = localStorage.getItem('jeokbal_' + k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } },
   set(k, v){ try { localStorage.setItem('jeokbal_' + k, JSON.stringify(v)); } catch(e){} }
 };
-let best = 0, muted = false;
+let muted = false;
+const DIFFS = {
+  easy:   { label: '쉬움',   cols: 3, rows: 4, time: 1.35, spawn: 1.15, windup: .4,  falseP: 8,  missP: 10, mult: .7 },
+  normal: { label: '보통',   cols: 4, rows: 5, time: 1,    spawn: 1,    windup: .3,  falseP: 12, missP: 15, mult: 1 },
+  hard:   { label: '어려움', cols: 4, rows: 6, time: .8,   spawn: .88,  windup: .25, falseP: 15, missP: 20, mult: 1.4 }
+};
+let diffKey = 'normal', bests = { easy: 0, normal: 0, hard: 0 };
+const D = () => DIFFS[diffKey];
 
 /* ---------- 소리 ---------- */
 let actx = null;
@@ -354,10 +395,10 @@ function layout(){
   const r = stage.getBoundingClientRect();
   W = r.width; H = r.height; DPR = Math.min(window.devicePixelRatio || 1, 2.5);
   cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
-  const top = hud.offsetHeight + 12, bottom = H - 8;
-  const cols = 4, cw = (W - 20) / cols;
-  const rows = clamp(Math.floor((bottom - top) / (cw * 1.2)), 3, 6);
-  grid = { cols, rows, cw, ch: (bottom - top) / rows, x0: 10, y0: top };
+  const top = hud.offsetHeight + 10, avail = H - 8 - top;
+  const cols = D().cols, rows = D().rows, cw = (W - 20) / cols;
+  const ch = Math.min(avail / rows, cw * 1.6);
+  grid = { cols, rows, cw, ch, x0: 10, y0: top + Math.max(0, (avail - ch * rows) / 2) };
   const n = cols * rows;
   while (students.length < n) students.push(makeStudent(students.length));
   if (students.length > n) students.length = n;
@@ -734,7 +775,7 @@ function tap(st, x, y){
     const frac = st.state === 'windup' ? 1 : clamp(1 - st.t / st.dur, 0, 1);
     G.combo++; G.bestCombo = Math.max(G.bestCombo, G.combo);
     const mult = Math.min(3, 1 + .25 * (G.combo - 1));
-    const pts = Math.round((100 + 100 * frac) * mult);
+    const pts = Math.round((100 + 100 * frac) * mult * D().mult);
     G.score += pts; G.catches++; G.fair = Math.min(100, G.fair + 4);
     G.caught.push({ look: Object.assign({}, st.look), kind: st.kind });
     st.state = 'caught'; st.t = 0; st.sirened = false;
@@ -742,11 +783,11 @@ function tap(st, x, y){
     addFloat(cx, cy, '+' + pts, '#ffffff', 22);
     if (G.combo >= 2) addFloat(cx, cy + 24, G.combo + '연속 적발!', '#ffd84a', 15);
   } else if (st.state === 'idle' || st.state === 'decoy'){
-    G.combo = 0; G.falses++; G.fair -= 12;
+    G.combo = 0; G.falses++; G.fair -= D().falseP;
     st.state = 'wronged'; st.t = 0; st.act = null; st.wtext = pick(WRONGED);
     sfx.wrong(); buzz([20, 40, 20]); shake(4, .2);
     xmarks.push({ x, y, t: 0 });
-    addFloat(cx, cy + 10, '민원 접수 -12', '#ffb4a8', 15);
+    addFloat(cx, cy + 10, '민원 접수 -' + D().falseP, '#ffb4a8', 15);
     checkFair();
   }
 }
@@ -754,8 +795,8 @@ function tap(st, x, y){
 /* ---------- 진행 ---------- */
 function onEscape(st){
   if (G.phase === 'play'){
-    G.fair -= 15; G.misses++; G.combo = 0; sfx.miss();
-    const R = cellRect(st); addFloat(R.x + R.w / 2, R.y + R.h * .3, '놓침 -15', '#c9d2ce', 15);
+    G.fair -= D().missP; G.misses++; G.combo = 0; sfx.miss();
+    const R = cellRect(st); addFloat(R.x + R.w / 2, R.y + R.h * .3, '놓침 -' + D().missP, '#c9d2ce', 15);
     checkFair();
   }
   st.state = 'escaped'; st.t = 0;
@@ -764,7 +805,7 @@ function updateStudent(st, dt, T){
   st.t += dt;
   switch (st.state){
     case 'idle': if (st.enter < 1) st.enter = Math.min(1, st.enter + dt * 3); break;
-    case 'windup': if (st.t >= .3){ st.state = 'cheat'; st.t = 0; } break;
+    case 'windup': if (st.t >= D().windup){ st.state = 'cheat'; st.t = 0; } break;
     case 'cheat': if (st.t >= st.dur) onEscape(st); break;
     case 'escaped': if (st.t >= .8) toIdle(st); break;
     case 'decoy': if (st.t >= st.dur) toIdle(st); break;
@@ -783,7 +824,7 @@ function director(dt){
   const playing = G.phase === 'play', P = periodCfg(playing ? G.period : 0);
   G.spawnT -= dt; if (G.spawnT > 0) return;
   const prog = playing ? 1 - G.timeLeft / P.dur : 0;
-  G.spawnT = rnd(P.spawn[0], P.spawn[1]) * (playing ? 1 - .15 * prog : 1.1);
+  G.spawnT = rnd(P.spawn[0], P.spawn[1]) * (playing ? (1 - .15 * prog) * D().spawn : 1.1);
   const idle = students.filter(s => s.state === 'idle' && s.enter >= 1);
   if (!idle.length) return;
   const active = students.filter(s => s.state === 'windup' || s.state === 'cheat').length;
@@ -792,7 +833,7 @@ function director(dt){
     const kinds = P.cheats.filter(k => k !== 'glasses' || gl.length);
     if (!kinds.length) return;
     const kind = pick(kinds);
-    startCheat(pick(kind === 'glasses' ? gl : idle), kind, playing ? P.cheatDur * (1 - .12 * prog) : 1.8, playing && G.period >= PERIODS.length);
+    startCheat(pick(kind === 'glasses' ? gl : idle), kind, playing ? P.cheatDur * (1 - .12 * prog) * D().time : 1.8, playing && G.period >= PERIODS.length);
   } else {
     let act = pick(P.decoys), pool = idle;
     if (act === 'push'){ const gl = idle.filter(s => s.look.glasses); if (gl.length) pool = gl; else act = 'scratch'; }
@@ -916,10 +957,10 @@ function rankOf(score){
 function endGame(cleared){
   G.phase = 'end'; G.cleared = cleared;
   tokens = []; G.jailShown = G.caught.length; hudSync();
-  if (G.score > best){ best = G.score; store.set('best', best); }
+  if (G.score > bests[diffKey]){ bests[diffKey] = G.score; store.set('bests', bests); }
   const n = G.caught.length, counts = {};
   G.caught.forEach(c => counts[c.kind] = (counts[c.kind] || 0) + 1);
-  $('eCase').textContent = `사건 2027고단${Math.floor(rnd(1000, 9999))} 시험장 부정행위`;
+  $('eCase').textContent = `사건 2027고단${Math.floor(rnd(1000, 9999))} · 난이도 ${D().label}`;
   const reach = G.period + 1;
   const tail = cleared ? '' : G.period >= PERIODS.length ? ` 감독관은 제${reach}교시까지 버텼다.` : ' 시험장은 조기 폐쇄한다.';
   $('eOrder').textContent = n ? `피고인 ${n}명을 ${n > 1 ? '모두 ' : ''}감옥행에 처한다.${tail}` : '피고인 없음. 감독관은 연수를 다시 받는다.';
@@ -931,7 +972,7 @@ function endGame(cleared){
   $('eScore').textContent = G.score.toLocaleString('ko-KR');
   $('eAcc').textContent = (tries ? Math.round(G.catches / tries * 100) : 0) + '%';
   $('eCombo').textContent = G.bestCombo;
-  $('eBest').textContent = best.toLocaleString('ko-KR');
+  $('eBest').textContent = bests[diffKey].toLocaleString('ko-KR');
   const [rk, rd] = rankOf(G.score); $('eRank').textContent = rk; $('eRankDesc').textContent = rd;
   hide('copyFallback'); $('copyBtn').textContent = '도전장 보내기';
   $('slam').classList.remove('show'); $('slam').textContent = n ? '감옥행' : '텅 빈 감옥';
@@ -1054,9 +1095,23 @@ $('muteBtn').addEventListener('click', () => { muted = !muted; store.set('muted'
 $('startBtn').addEventListener('click', () => { ac(); newGame(); });
 $('roundBtn').addEventListener('click', () => { ac(); startPeriod(); });
 $('againBtn').addEventListener('click', () => { newGame(); });
+function syncDiff(){
+  document.querySelectorAll('input[name="diff"]').forEach(r => { r.checked = r.value === diffKey; });
+  $('bestDiff').textContent = D().label; $('bestTxt').textContent = bests[diffKey].toLocaleString('ko-KR');
+}
+document.querySelectorAll('input[name="diff"]').forEach(r => r.addEventListener('change', () => {
+  if (!r.checked || !DIFFS[r.value]) return;
+  diffKey = r.value; store.set('diff', diffKey); syncDiff(); layout();
+}));
+$('diffBtn').addEventListener('click', () => {
+  hide('endOv'); G.phase = 'title'; G.period = 0; G.score = 0; G.fair = 100; G.jailShown = 0; G.banner = null;
+  tokens = []; floats = []; xmarks = [];
+  students.forEach(s => { if (s.state !== 'empty' && s.state !== 'caught') toIdle(s); });
+  syncDiff(); show('startOv'); hudSync();
+});
 $('copyBtn').addEventListener('click', () => {
   const [rk] = rankOf(G.score);
-  const text = `[적발! 시험 감독관] 나는 커닝한 수험생 ${G.caught.length}명을 감옥에 보냈다. ${G.score.toLocaleString('ko-KR')}점, 제${G.period + 1}교시까지 버팀 (${rk}). 너는 몇 명 잡을 수 있어?`;
+  const text = `[적발! 시험 감독관] 나는 커닝한 수험생 ${G.caught.length}명을 감옥에 보냈다. ${G.score.toLocaleString('ko-KR')}점, 제${G.period + 1}교시까지 버팀 (${D().label}, ${rk}). 너는 몇 명 잡을 수 있어?`;
   const full = text + '\n' + SHARE_URL;
   const fallback = () => { const i = $('copyFallback'); i.value = full; show('copyFallback'); i.focus(); i.select(); $('copyBtn').textContent = '직접 복사하세요'; };
   const copy = () => { try { navigator.clipboard.writeText(full).then(() => { $('copyBtn').textContent = '복사됨'; }, fallback); } catch(e){ fallback(); } };
@@ -1070,11 +1125,13 @@ window.addEventListener('resize', layout);
 
 /* ---------- 시작 ---------- */
 function boot(data){
-  best = Math.max(store.get('best', 0), (data && data.best) || 0);
-  muted = data && typeof data.muted === 'boolean' ? data.muted : store.get('muted', false);
-  $('bestTxt').textContent = best.toLocaleString('ko-KR');
-  syncMute(); layout(); hudSync();
-  try { window.claude && window.claude.hot && window.claude.hot.snapshot && window.claude.hot.snapshot(() => ({ best, muted })); } catch(e){}
+  data = data || {};
+  const saved = store.get('bests', {}) || {};
+  for (const k of Object.keys(bests)) bests[k] = Math.max(bests[k], +saved[k] || 0, (data.bests && +data.bests[k]) || 0);
+  muted = typeof data.muted === 'boolean' ? data.muted : store.get('muted', false);
+  const dk = data.diff || store.get('diff', 'normal'); diffKey = DIFFS[dk] ? dk : 'normal';
+  syncDiff(); syncMute(); layout(); hudSync();
+  try { window.claude && window.claude.hot && window.claude.hot.snapshot && window.claude.hot.snapshot(() => ({ bests, muted, diff: diffKey })); } catch(e){}
   if (document.fonts && document.fonts.load){ document.fonts.load(`20px ${FD}`).catch(() => {}); }
   requestAnimationFrame(t => { last = t; frame(t); });
 }
