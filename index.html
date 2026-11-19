@@ -161,9 +161,9 @@ body{font-family:var(--body);color:var(--ink);overflow:hidden;-webkit-tap-highli
     <div class="card">
       <div class="meta"><span class="box">감독관 연수</span><span>4교시 + 무한 연장</span></div>
       <h1 class="title"><span class="stamp">적발!</span><span class="t2">시험 감독관</span></h1>
-      <p class="lead">AI 글라스, 스마트워치, 휴대폰. 몰래 켜지는 순간 그 학생을 터치해 감옥으로 보내세요.</p>
+      <p class="lead">AI 글라스, 휴대폰, 커닝페이퍼. 수상한 순간 그 학생을 터치해 감옥으로 보내세요. 커닝은 1~2초면 끝나요.</p>
       <ul class="rules">
-        <li><span class="dot cyan"></span><span>파랗게 빛나거나 두리번거리면 즉시 터치해 적발</span></li>
+        <li><span class="dot cyan"></span><span>파랗게 빛나거나 수상하게 움직이면 즉시 터치해 적발. 교시가 올라갈수록 불빛이 사라져요</span></li>
         <li><span class="dot red"></span><span>멀쩡한 학생을 찌르면 민원 접수, 공정성이 깎여요</span></li>
         <li><span class="dot gray"></span><span>놓쳐도 공정성 하락. 0이 되면 시험장 폐쇄</span></li>
       </ul>
@@ -295,39 +295,39 @@ const CHEATS = {
   glasses: { label: 'AI 글라스', short: 'AI글라스', sig: true },
   phone:   { label: '휴대폰', short: '휴대폰', sig: true },
   watch:   { label: '스마트워치', short: '스마트워치', sig: true },
-  earbud:  { label: '무선 이어폰', short: '이어폰', sig: true },
+  peek:    { label: '옆자리 훔쳐보기', short: '훔쳐보기', sig: false },
   note:    { label: '커닝페이퍼', short: '커닝페이퍼', sig: false }
 };
-const ALL_DECOYS = ['scratch', 'yawn', 'stretch', 'think', 'push', 'analog', 'eraser', 'earscratch'];
+const ALL_DECOYS = ['scratch', 'yawn', 'stretch', 'think', 'push', 'analog', 'eraser', 'earscratch', 'window'];
 const PERIODS = [
-  { no: '제1교시', sub: '국어 영역', dur: 40, cheats: ['glasses', 'phone'], decoys: ['scratch', 'yawn', 'stretch', 'think', 'push'],
-    spawn: [1.5, 2.3], pCheat: .55, cheatDur: 2.8, maxCheat: 1, demo: ['glasses', 'push'],
+  { no: '제1교시', sub: '국어 영역', dur: 20, cheats: ['glasses', 'phone'], decoys: ['scratch', 'yawn', 'stretch', 'think', 'push'],
+    spawn: [1.1, 1.7], pCheat: .55, cheatDur: 1.6, maxCheat: 1, demo: ['glasses', 'push'],
     title: 'AI 글라스를 잡아라',
-    desc: '안경다리를 만지는데 렌즈 옆 LED가 파랗게 깜빡이면 AI 글라스. 책상 밑에서 얼굴이 파랗게 비치면 휴대폰. 그냥 안경을 올려 쓰는 학생은 무죄예요.' },
-  { no: '제2교시', sub: '수학 영역', dur: 40, cheats: ['glasses', 'phone', 'watch'], decoys: ['scratch', 'yawn', 'stretch', 'think', 'push', 'analog', 'eraser'],
-    spawn: [1.25, 2.0], pCheat: .52, cheatDur: 2.4, maxCheat: 2, demo: ['watch', 'analog'],
+    desc: '안경다리를 만지는데 렌즈 옆 LED가 파랗게 깜빡이면 AI 글라스. 책상 밑에서 얼굴이 파랗게 비치면 휴대폰. 그냥 안경을 올려 쓰는 학생은 무죄. 커닝은 순식간에 끝나니 빨리 찍으세요.' },
+  { no: '제2교시', sub: '수학 영역', dur: 20, cheats: ['glasses', 'phone', 'watch'], decoys: ['scratch', 'yawn', 'stretch', 'think', 'push', 'analog', 'eraser'],
+    spawn: [1.0, 1.5], pCheat: .55, cheatDur: 1.4, maxCheat: 2, demo: ['watch', 'analog'],
     title: '신종 수법: 스마트워치',
     desc: '손목을 들여다보는데 화면이 파랗게 빛나면 적발. 하얀 아날로그 시계는 반입 허용이라 건드리면 민원이 들어와요. 지우개 줍는 학생도 무죄.' },
-  { no: '제3교시', sub: '영어 영역', dur: 40, cheats: ['glasses', 'phone', 'watch', 'earbud'], decoys: ALL_DECOYS.filter(d => d !== 'stretch'),
-    spawn: [1.0, 1.7], pCheat: .5, cheatDur: 2.1, maxCheat: 2, demo: ['earbud', 'earscratch'],
-    title: '신종 수법: 무선 이어폰',
-    desc: '귀를 감싸고 입을 오물거리는데 귓가에 파란 불이 보이면 이어폰. 그냥 귀를 긁는 학생은 무죄. 이번 교시부터 동시에 두 명씩 나옵니다.' },
-  { no: '제4교시', sub: '탐구 영역', dur: 40, cheats: ['glasses', 'phone', 'watch', 'earbud', 'note'], decoys: ALL_DECOYS,
-    spawn: [.8, 1.35], pCheat: .5, cheatDur: 1.8, maxCheat: 3, demo: ['note', 'eraser'],
+  { no: '제3교시', sub: '영어 영역', dur: 20, cheats: ['glasses', 'phone', 'watch', 'peek'], decoys: ALL_DECOYS.filter(d => d !== 'stretch'),
+    spawn: [.85, 1.3], pCheat: .55, cheatDur: 1.3, maxCheat: 2, demo: ['peek', 'window'],
+    title: '신종 수법: 옆자리 훔쳐보기',
+    desc: '이번 수법은 빛이 안 나요. 고개를 옆으로 돌려 옆자리 답안지를 내려다보면 적발. 고개를 돌려도 눈이 위쪽 창밖을 향하면 무죄예요.' },
+  { no: '제4교시', sub: '탐구 영역', dur: 20, cheats: ['glasses', 'phone', 'watch', 'peek', 'note'], decoys: ALL_DECOYS,
+    spawn: [.7, 1.1], pCheat: .55, cheatDur: 1.2, maxCheat: 3, demo: ['note', 'eraser'],
     title: '고전 수법: 커닝페이퍼',
-    desc: '이번엔 빛이 안 납니다. 노란 쪽지를 꺼내 훔쳐보면 적발. 마지막 교시예요. 남김없이 잡아서 감옥으로.' }
+    desc: '역시 빛이 안 나요. 노란 쪽지를 꺼내 훔쳐보면 적발. 지우개 줍는 학생은 무죄. 다음 교시부터는 AI 글라스, 휴대폰, 스마트워치도 불빛이 꺼지니 손 위치를 눈에 익혀 두세요.' }
 ];
-const EXTRA = { cheats: ['glasses', 'phone', 'watch', 'earbud', 'note'], decoys: ALL_DECOYS, demo: ['phone', 'eraser'],
-  title: '연장 시험 돌입',
-  desc: '4교시 통과! 이제부터 30초마다 교시가 바뀌고 점점 빨라져요. 공정성이 0이 될 때까지 몇 교시를 버티는지가 기록이 됩니다. 교시가 끝날 때마다 공정성 +10.' };
+const EXTRA = { cheats: ['glasses', 'phone', 'watch', 'peek', 'note'], decoys: ALL_DECOYS, demo: ['glasses', 'push'], dark: true,
+  title: '연장 시험: 불이 꺼졌다',
+  desc: '이제 어떤 수법도 빛이 안 나요. 안경다리를 만지면 AI 글라스, 두 손이 책상 밑이면 휴대폰, 까만 시계를 보면 스마트워치. 20초마다 교시가 바뀌고 점점 빨라져요. 교시가 끝날 때마다 공정성 +10.' };
 const cfgCache = {};
 function periodCfg(i){
   if (i < PERIODS.length) return PERIODS[i];
   if (cfgCache[i]) return cfgCache[i];
   const n = i - PERIODS.length + 1;
-  return cfgCache[i] = Object.assign({}, EXTRA, { no: `제${i + 1}교시`, sub: '연장 시험', dur: 30,
-    spawn: [Math.max(.42, .8 * Math.pow(.9, n)), Math.max(.75, 1.35 * Math.pow(.9, n))],
-    pCheat: .52, cheatDur: Math.max(1.05, 1.8 * Math.pow(.92, n)), maxCheat: Math.min(6, 3 + Math.floor(n / 2)) });
+  return cfgCache[i] = Object.assign({}, EXTRA, { no: `제${i + 1}교시`, sub: '연장 시험', dur: 20,
+    spawn: [Math.max(.38, .65 * Math.pow(.9, n)), Math.max(.6, 1.0 * Math.pow(.9, n))],
+    pCheat: .55, cheatDur: Math.max(.75, 1.1 * Math.pow(.93, n)), maxCheat: Math.min(6, 3 + Math.floor(n / 2)) });
 }
 const SHARE_URL = 'https://mskim0610.github.io/jeokbal/';
 const WRONGED = ['억울해요!', '저요?!', '아닌데요?', '민원 넣을게요', '왜요?!'];
@@ -341,7 +341,7 @@ function newLook(){
 }
 function makeStudent(i){
   return { i, look: newLook(), state: 'idle', t: 0, dur: 0, kind: null, act: null, ph: Math.random() * 10,
-    h: { lx: 35, ly: 93, rx: 65, ry: 93, ex: 0, ey: 1 }, hd: 0, bd: 0, enter: 1, pose: null, sirened: false, wtext: '' };
+    h: { lx: 35, ly: 93, rx: 65, ry: 93, ex: 0, ey: 1 }, hd: 0, bd: 0, hx: 0, turn: 0, tilt: 0, side: 1, dark: false, enter: 1, pose: null, sirened: false, wtext: '' };
 }
 
 /* ---------- 상태 ---------- */
@@ -375,22 +375,25 @@ function cellBox(st){
 }
 
 /* ---------- 상태 전환 ---------- */
-function toIdle(st){ st.state = 'idle'; st.t = 0; st.kind = null; st.act = null; }
-function startCheat(st, kind, dur){ st.state = 'windup'; st.t = 0; st.kind = kind; st.dur = dur; }
-function startDecoy(st, act){ st.state = 'decoy'; st.t = 0; st.act = act; st.dur = act === 'push' ? .9 : act === 'analog' ? 1.2 : rnd(1.1, 1.8); }
+function sideOf(st){ const c = st.i >= 0 ? st.i % grid.cols : 1; return c === 0 ? 1 : c === grid.cols - 1 ? -1 : (Math.random() < .5 ? -1 : 1); }
+function toIdle(st){ st.state = 'idle'; st.t = 0; st.kind = null; st.act = null; st.dark = false; }
+function startCheat(st, kind, dur, dark){ st.state = 'windup'; st.t = 0; st.kind = kind; st.dur = dur; st.dark = !!dark; st.side = sideOf(st); }
+function startDecoy(st, act){ st.state = 'decoy'; st.t = 0; st.act = act; st.side = sideOf(st); st.dur = act === 'push' ? .9 : act === 'analog' ? 1.2 : act === 'window' ? rnd(1.1, 1.5) : rnd(1.1, 1.8); }
 
 /* ---------- 포즈 ---------- */
-function cheatPose(p, kind, k){
-  switch (kind){
+function cheatPose(p, st, k){
+  const sd = st.side || 1;
+  switch (st.kind){
     case 'glasses': p.rx = 71; p.ry = 41; p.ex = .5; p.ey = -.6; p.fx = 'glasses'; break;
     case 'phone': p.lx = 40; p.ly = 110; p.rx = 60; p.ry = 110; p.ey = 1; p.hd = 3; p.fx = 'phone'; break;
     case 'watch': p.lx = 54; p.ly = 72; p.ex = -.5; p.ey = 1; p.hd = 1.5; p.fx = 'watch'; break;
-    case 'earbud': p.rx = 72; p.ry = 49; p.ex = -.8; p.ey = .1; p.mouth = 'whisper'; p.fx = 'earbud'; break;
+    case 'peek': p.hx = sd * 5; p.turn = sd; p.tilt = sd * .2; p.ex = sd; p.ey = .95; p.hd = 2.5; break;
     case 'note': p.lx = 42; p.ly = 89; p.ex = -.75; p.ey = 1; p.hd = 1.5; p.fx = 'note'; break;
   }
 }
-function decoyPose(p, act, k, T){
-  switch (act){
+function decoyPose(p, st, k, T){
+  const sd = st.side || 1;
+  switch (st.act){
     case 'scratch': p.rx = 63 + 2 * Math.sin(k * 22); p.ry = 25; p.ey = -.6; p.ex = .3; break;
     case 'yawn': p.mouth = 'yawn'; p.closed = true; p.hd = -1; break;
     case 'stretch': p.lx = 27; p.ly = 9; p.rx = 73; p.ry = 9; p.closed = true; p.mouth = 'o'; p.bd = -2; break;
@@ -399,22 +402,23 @@ function decoyPose(p, act, k, T){
     case 'eraser': p.rx = 75; p.ry = 110; p.hd = 5; p.ey = 1; p.ex = .6; break;
     case 'earscratch': p.rx = 72 + 1.5 * Math.sin(k * 24); p.ry = 49; p.ex = .3; p.ey = 0; break;
     case 'push': p.rx = 50; p.ry = 47.5; p.ey = 0; break;
+    case 'window': p.hx = sd * 2; p.turn = sd * .8; p.ex = sd; p.ey = -1; p.hd = -1.5; break;
   }
 }
 function poseOf(st, T){
-  const p = { lx: 35, ly: 93, rx: 65, ry: 93, ex: 0, ey: 1, mouth: 'line', closed: false, hd: 0, bd: 0, write: false, fx: null, mood: null };
+  const p = { lx: 35, ly: 93, rx: 65, ry: 93, ex: 0, ey: 1, mouth: 'line', closed: false, hd: 0, bd: 0, hx: 0, turn: 0, tilt: 0, write: false, fx: null, mood: null };
   const k = st.t;
   switch (st.state){
     case 'idle':
       p.write = true; p.rx = 64 + 3 * Math.sin(T * 7 + st.ph); p.ry = 92 + 1.3 * Math.cos(T * 11 + st.ph);
       p.ex = .2 * Math.sin(T * .6 + st.ph); p.hd = .6 * Math.sin(T * 1.3 + st.ph); break;
     case 'windup': p.ex = Math.sin(k * 15) > 0 ? .95 : -.95; p.ey = -.1; break;
-    case 'cheat': cheatPose(p, st.kind, k); break;
-    case 'decoy': decoyPose(p, st.act, k, T); break;
+    case 'cheat': cheatPose(p, st, k); break;
+    case 'decoy': decoyPose(p, st, k, T); break;
     case 'escaped': p.mouth = 'smirk'; p.ex = .6; p.ey = 0; break;
     case 'wronged': p.mood = 'angry'; p.mouth = 'frown'; p.ey = -.3; break;
     case 'caught':
-      if (k < .35){ if (st.kind) cheatPose(p, st.kind, 0); p.mood = 'shock'; }
+      if (k < .35){ if (st.kind) cheatPose(p, st, 0); p.mood = 'shock'; }
       else { p.lx = 27; p.ly = 20; p.rx = 73; p.ry = 20; p.bd = -9; p.mouth = 'shock'; p.mood = 'shock'; p.ey = -.2; p.fx = null; }
       break;
     case 'prisoner': p.lx = 27; p.ly = 92; p.rx = 73; p.ry = 92; p.ey = .7; p.mouth = 'frown'; p.mood = 'sad'; break;
@@ -426,6 +430,7 @@ function lerpPose(st, p, dt){
   h.lx += (p.lx - h.lx) * f; h.ly += (p.ly - h.ly) * f; h.rx += (p.rx - h.rx) * f; h.ry += (p.ry - h.ry) * f;
   h.ex += (p.ex - h.ex) * fe; h.ey += (p.ey - h.ey) * fe;
   st.hd += (p.hd - st.hd) * f; st.bd += (p.bd - st.bd) * f;
+  st.hx += (p.hx - st.hx) * f; st.turn += (p.turn - st.turn) * f; st.tilt += (p.tilt - st.tilt) * f;
   st.pose = p;
 }
 
@@ -446,6 +451,7 @@ function drawHair(c, L, hd){
   c.restore();
 }
 function drawFace(c, st, P, T){
+  c.save(); c.translate((st.turn || 0) * 4, 0);
   const hd = st.hd, ex = st.h.ex, ey = st.h.ey, y = 45.5 + hd;
   c.fillStyle = 'rgba(255,110,110,.2)'; circle(c, 38.5, 51 + hd, 3.2); circle(c, 61.5, 51 + hd, 3.2);
   c.fillStyle = '#1b1b1b'; c.strokeStyle = '#1b1b1b'; c.lineCap = 'round';
@@ -471,10 +477,12 @@ function drawFace(c, st, P, T){
     case 'frown': c.beginPath(); c.moveTo(46.5, my + 1.5); c.quadraticCurveTo(50, my - 1.5, 53.5, my + 1.5); c.stroke(); break;
     default: c.beginPath(); c.moveTo(47.5, my); c.quadraticCurveTo(50, my + 1.4, 52.5, my); c.stroke();
   }
+  c.restore();
 }
-function drawGlasses(c, active, hd, T){
-  const y = 40.5 + hd;
-  if (active){
+function drawGlasses(c, active, hd, T, dark, tx){
+  const y = 40.5 + hd, lit = active && !dark;
+  c.save(); c.translate(tx || 0, 0);
+  if (lit){
     c.save();
     c.fillStyle = rgba(SIG, .3); rr(c, 36, y, 13, 9.5, 3); c.fill(); rr(c, 51, y, 13, 9.5, 3); c.fill();
     rr(c, 51, y, 13, 9.5, 3); c.clip();
@@ -486,9 +494,9 @@ function drawGlasses(c, active, hd, T){
   rr(c, 36, y, 13, 9.5, 3); c.stroke(); rr(c, 51, y, 13, 9.5, 3); c.stroke();
   c.beginPath(); c.moveTo(49, y + 3.5); c.quadraticCurveTo(50, y + 2, 51, y + 3.5);
   c.moveTo(36, y + 3); c.lineTo(31, y + 2); c.moveTo(64, y + 3); c.lineTo(69, y + 2); c.stroke();
+  if (lit && (T * 6) % 1 < .65){ glow(c, 65, y + 1.2, 10, SIG, .95); c.fillStyle = '#e2fdff'; circle(c, 65, y + 1.2, 1.5); }
   if (active){
-    if ((T * 6) % 1 < .65){ glow(c, 65, y + 1.2, 10, SIG, .95); c.fillStyle = '#e2fdff'; circle(c, 65, y + 1.2, 1.5); }
-    const base = c.globalAlpha; c.strokeStyle = 'rgba(255,165,80,.85)'; c.lineWidth = 1.1;
+    const base = c.globalAlpha; c.strokeStyle = dark ? 'rgba(255,165,80,.45)' : 'rgba(255,165,80,.85)'; c.lineWidth = 1.1;
     for (let i = 0; i < 2; i++){
       const k = (T * 1.3 + i * .5) % 1, bx = 65 + i * 4, by = y - 2 - k * 12;
       c.globalAlpha = base * (1 - k);
@@ -496,10 +504,12 @@ function drawGlasses(c, active, hd, T){
     }
     c.globalAlpha = base;
   }
+  c.restore();
 }
 function drawBodyHead(c, st, P, T, o){
-  const L = st.look, hd = st.hd;
-  if (L.style === 2){ c.fillStyle = L.hair; rr(c, 28.5, 30 + hd, 43, 30, 12); c.fill(); }
+  const L = st.look, hd = st.hd, hx = st.hx || 0, tr = st.turn || 0;
+  const headXf = () => { c.translate(hx, 0); if (st.tilt){ c.translate(50, 58 + hd); c.rotate(st.tilt); c.translate(-50, -58 - hd); } };
+  if (L.style === 2){ c.save(); headXf(); c.fillStyle = L.hair; rr(c, 28.5, 30 + hd, 43, 30, 12); c.fill(); c.restore(); }
   rr(c, 21, 63, 58, 46, 16);
   if (o.prison){
     c.fillStyle = '#efeee6'; c.fill();
@@ -511,16 +521,18 @@ function drawBodyHead(c, st, P, T, o){
     c.fillStyle = 'rgba(255,255,255,.9)'; c.beginPath(); c.moveTo(43, 63.5); c.lineTo(50, 71); c.lineTo(57, 63.5); c.closePath(); c.fill();
   }
   c.fillStyle = L.skin; c.fillRect(45, 54 + hd * .5, 10, 10);
-  circle(c, 31.5, 45 + hd, 3.6); circle(c, 68.5, 45 + hd, 3.6);
+  c.save(); headXf();
+  circle(c, 31.5 - tr * 1.5, 45 + hd, 3.6); circle(c, 68.5 - tr * 1.5, 45 + hd, 3.6);
   circle(c, 50, 42 + hd, 19);
   drawHair(c, L, hd);
   drawFace(c, st, P, T);
-  if (P.fx === 'phone'){
+  if (P.fx === 'phone' && !st.dark){
     c.save(); c.beginPath(); c.arc(50, 42 + hd, 19, 0, Math.PI * 2); c.clip();
     const g = c.createLinearGradient(0, 62 + hd, 0, 30 + hd); g.addColorStop(0, rgba(SIG, .62)); g.addColorStop(1, rgba(SIG, 0));
     c.fillStyle = g; c.fillRect(30, 22 + hd, 40, 42); c.restore();
   }
-  if (L.glasses) drawGlasses(c, P.fx === 'glasses', hd, T);
+  if (L.glasses) drawGlasses(c, P.fx === 'glasses', hd, T, st.dark, tr * 4);
+  c.restore();
 }
 function drawArm(c, sx, sy, hx, hy, L, o){
   c.strokeStyle = o.prison ? '#d9d8cf' : L.shirt; c.lineWidth = 9; c.lineCap = 'round';
@@ -529,15 +541,15 @@ function drawArm(c, sx, sy, hx, hy, L, o){
   c.fillStyle = L.skin; circle(c, hx, hy, 4.8);
   c.strokeStyle = 'rgba(0,0,0,.18)'; c.lineWidth = .8; c.stroke();
 }
-function drawWatch(c, h, smart){
+function drawWatch(c, h, smart, dark){
   const dx = h.lx - 31, dy = h.ly - 72, d = Math.hypot(dx, dy) || 1;
   const wx = h.lx - dx / d * 6.5, wy = h.ly - dy / d * 6.5;
   c.save(); c.translate(wx, wy); c.rotate(Math.atan2(dy, dx));
   if (smart){
-    glow(c, 0, 0, 11, SIG, .8);
+    if (!dark) glow(c, 0, 0, 11, SIG, .8);
     c.fillStyle = '#151515'; rr(c, -3.8, -4, 7.6, 8, 1.8); c.fill();
-    c.fillStyle = rgba(SIG, 1); rr(c, -2.8, -3, 5.6, 6, 1.2); c.fill();
-    c.fillStyle = '#063a44'; c.fillRect(-2, -1.6, 4, .8); c.fillRect(-2, .2, 2.8, .8);
+    c.fillStyle = dark ? '#2a2f33' : rgba(SIG, 1); rr(c, -2.8, -3, 5.6, 6, 1.2); c.fill();
+    c.fillStyle = dark ? '#40474c' : '#063a44'; c.fillRect(-2, -1.6, 4, .8); c.fillRect(-2, .2, 2.8, .8);
   } else {
     c.fillStyle = '#5a4634'; c.fillRect(-2.2, -5, 4.4, 10);
     c.fillStyle = '#fff'; c.strokeStyle = '#222'; c.lineWidth = .9; c.beginPath(); c.arc(0, 0, 3.6, 0, Math.PI * 2); c.fill(); c.stroke();
@@ -586,7 +598,7 @@ function drawStudent(c, st, T, o = {}){
   c.restore();
   if (!o.noDesk){
     drawDesk(c, st, false);
-    if (P.fx === 'phone') glow(c, 50, 86, 26, SIG, .6);
+    if (P.fx === 'phone' && !st.dark) glow(c, 50, 86, 26, SIG, .6);
   }
   c.save(); c.globalAlpha = a; c.translate(0, st.bd);
   if (o.board) drawBoard(c, o.board, L.id);
@@ -597,8 +609,7 @@ function drawStudent(c, st, T, o = {}){
     c.beginPath(); c.moveTo(h.rx + 3.5, h.ry - 5.5); c.lineTo(h.rx - 3, h.ry + 3.5); c.stroke();
     c.strokeStyle = '#333'; c.lineWidth = 1.2; c.beginPath(); c.moveTo(h.rx - 3, h.ry + 3.5); c.lineTo(h.rx - 4, h.ry + 5); c.stroke();
   }
-  if (P.fx === 'watch' || P.fx === 'analog') drawWatch(c, h, P.fx === 'watch');
-  if (P.fx === 'earbud'){ glow(c, 68.5, 45.5 + st.hd, 8, SIG, .9); c.fillStyle = '#e2fdff'; circle(c, 68.5, 45.5 + st.hd, 1.6); }
+  if (P.fx === 'watch' || P.fx === 'analog') drawWatch(c, h, P.fx === 'watch', st.dark);
   if (P.fx === 'note') drawNote(c, h);
   c.restore();
 }
@@ -753,7 +764,7 @@ function updateStudent(st, dt, T){
   st.t += dt;
   switch (st.state){
     case 'idle': if (st.enter < 1) st.enter = Math.min(1, st.enter + dt * 3); break;
-    case 'windup': if (st.t >= .45){ st.state = 'cheat'; st.t = 0; } break;
+    case 'windup': if (st.t >= .3){ st.state = 'cheat'; st.t = 0; } break;
     case 'cheat': if (st.t >= st.dur) onEscape(st); break;
     case 'escaped': if (st.t >= .8) toIdle(st); break;
     case 'decoy': if (st.t >= st.dur) toIdle(st); break;
@@ -763,7 +774,7 @@ function updateStudent(st, dt, T){
       if (st.t >= 1.25){ sendToJail(st); st.state = 'empty'; st.t = 0; }
       break;
     case 'empty':
-      if (st.t >= 1.5){ st.look = newLook(); toIdle(st); st.enter = 0; st.h = { lx: 35, ly: 93, rx: 65, ry: 93, ex: 0, ey: 1 }; st.bd = 0; st.hd = 0; }
+      if (st.t >= 1.5){ st.look = newLook(); toIdle(st); st.enter = 0; st.h = { lx: 35, ly: 93, rx: 65, ry: 93, ex: 0, ey: 1 }; st.bd = 0; st.hd = 0; st.hx = 0; st.turn = 0; st.tilt = 0; }
       break;
   }
   lerpPose(st, poseOf(st, T), dt);
@@ -781,7 +792,7 @@ function director(dt){
     const kinds = P.cheats.filter(k => k !== 'glasses' || gl.length);
     if (!kinds.length) return;
     const kind = pick(kinds);
-    startCheat(pick(kind === 'glasses' ? gl : idle), kind, playing ? P.cheatDur * (1 - .18 * prog) : 2.2);
+    startCheat(pick(kind === 'glasses' ? gl : idle), kind, playing ? P.cheatDur * (1 - .12 * prog) : 1.8, playing && G.period >= PERIODS.length);
   } else {
     let act = pick(P.decoys), pool = idle;
     if (act === 'push'){ const gl = idle.filter(s => s.look.glasses); if (gl.length) pool = gl; else act = 'scratch'; }
@@ -839,12 +850,13 @@ function startPeriod(){
 
 /* ---------- 교시 소개 데모 ---------- */
 let demo = null;
+const i2side = st => (st === demo.a ? 1 : -1);
 function setupDemo(P){
   const a = makeStudent(-1), b = makeStudent(-2);
   if (P.demo[0] === 'glasses') a.look.glasses = true;
   if (P.demo[1] === 'push') b.look.glasses = true;
   a.look.id = '0412'; b.look.id = '0413';
-  demo = { a, b, kind: P.demo[0], decoy: P.demo[1], t: 0 };
+  demo = { a, b, kind: P.demo[0], decoy: P.demo[1], dark: !!P.dark, t: 0 };
   requestAnimationFrame(sizeDemo);
 }
 function sizeDemo(){
@@ -858,7 +870,8 @@ function updateDemo(dt, T){
   for (const [st, cheat] of [[demo.a, true], [demo.b, false]]){
     if (cyc < .8){ if (st.state !== 'idle') toIdle(st); }
     else if (st.state === 'idle'){
-      if (cheat){ st.state = 'cheat'; st.kind = demo.kind; } else { st.state = 'decoy'; st.act = demo.decoy; }
+      if (cheat){ st.state = 'cheat'; st.kind = demo.kind; st.dark = demo.dark; } else { st.state = 'decoy'; st.act = demo.decoy; }
+      st.side = i2side(st);
       st.t = 0; st.dur = 99;
     }
     st.t += dt; lerpPose(st, poseOf(st, T), dt);
