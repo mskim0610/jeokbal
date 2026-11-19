@@ -105,11 +105,7 @@ body{font-family:var(--body);color:var(--ink);overflow:hidden;-webkit-tap-highli
 #demo{width:100%;height:172px;display:block;border:1.5px solid var(--ink);background:var(--floor)}
 .card h2{margin:0;font-family:var(--display);font-weight:400;font-size:25px;line-height:1.15;text-wrap:balance}
 .card p{margin:0;font-size:14px;line-height:1.55}
-.note{font-size:12px!important;color:#5b625e}
 
-#adOv{background:#0e1110}
-.ad{border:2px dashed #7b8580;color:#d7ddd9;padding:28px 22px;text-align:center;display:flex;flex-direction:column;gap:10px;max-width:300px}
-.ad b{font-family:var(--display);font-size:64px;font-weight:400;color:#fff;line-height:1}
 
 /* 엔딩: 감옥 + 판결문 */
 .end{background:var(--wall);flex-direction:column;align-items:stretch;justify-content:flex-start;padding:0}
@@ -215,20 +211,6 @@ body{font-family:var(--body);color:var(--ink);overflow:hidden;-webkit-tap-highli
       <button id="roundBtn" class="btn primary" type="button">제1교시 시작</button>
       <button id="quitBtn" class="btn small hidden" type="button">여기서 판결 받기</button>
     </div>
-  </div>
-
-  <!-- 이어하기 -->
-  <div id="contOv" class="overlay hidden">
-    <div class="card">
-      <h2>시험장 폐쇄 위기</h2>
-      <p>공정성이 바닥났어요. 지금까지 잡은 <b id="cCount">0</b>명은 그대로 감옥에 갑니다.</p>
-      <button id="adBtn" class="btn primary" type="button">광고 보고 공정성 50 회복</button>
-      <button id="giveBtn" class="btn small" type="button">그만하고 판결 보기</button>
-      <p class="note">데모 화면입니다. 실제 앱에서는 이 버튼에 보상형 광고가 붙습니다.</p>
-    </div>
-  </div>
-  <div id="adOv" class="overlay hidden">
-    <div class="ad"><span>광고 자리 · 보상형 광고 (데모)</span><b id="adCount">3</b><span>끝나면 감독을 이어갑니다</span></div>
   </div>
 
   <!-- 엔딩 -->
@@ -387,7 +369,7 @@ function makeStudent(i){
 
 /* ---------- 상태 ---------- */
 const G = { phase: 'title', period: 0, timeLeft: 40, fair: 100, score: 0, combo: 0, bestCombo: 0, catches: 0, falses: 0, misses: 0,
-  caught: [], jailShown: 0, continued: false, cleared: false, spawnT: 1, breakT: 0, banner: null, shakeT: 0, shakeMag: 0, lastSec: -1 };
+  caught: [], jailShown: 0, cleared: false, spawnT: 1, breakT: 0, banner: null, shakeT: 0, shakeMag: 0, lastSec: -1 };
 let students = [], tokens = [], floats = [], xmarks = [];
 let grid = { cols: 4, rows: 5, cw: 100, ch: 130, x0: 10, y0: 100 };
 
@@ -849,8 +831,7 @@ function checkFair(){
   G.fair = 0; G.phase = 'over';
   students.forEach(s => { if (s.state === 'windup' || s.state === 'cheat' || s.state === 'decoy') toIdle(s); });
   banner('시험장 폐쇄', '공정성 0', 1.6, true);
-  if (!G.continued){ $('cCount').textContent = G.caught.length; setTimeout(() => show('contOv'), 900); }
-  else setTimeout(() => endGame(false), 1300);
+  setTimeout(() => { if (G.phase === 'over') endGame(false); }, 1500);
 }
 function endPeriod(){
   const P = periodCfg(G.period);
@@ -868,9 +849,9 @@ function hide(id){ $(id).classList.add('hidden'); }
 
 function newGame(){
   Object.assign(G, { period: 0, fair: 100, score: 0, combo: 0, bestCombo: 0, catches: 0, falses: 0, misses: 0, caught: [], jailShown: 0,
-    continued: false, cleared: false, banner: null, lastSec: -1 });
+    cleared: false, banner: null, lastSec: -1 });
   tokens = []; floats = []; xmarks = [];
-  ['startOv', 'endOv', 'contOv', 'adOv'].forEach(hide);
+  ['startOv', 'endOv'].forEach(hide);
   showIntro();
 }
 function showIntro(){
@@ -930,20 +911,6 @@ function updateDemo(dt, T){
     c.fillStyle = '#fff'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(label, lx, ly + 1);
   });
 }
-
-/* ---------- 이어하기 (보상형 광고 데모) ---------- */
-$('adBtn').addEventListener('click', () => {
-  hide('contOv'); show('adOv'); let n = 3; $('adCount').textContent = n;
-  const iv = setInterval(() => {
-    n--; $('adCount').textContent = Math.max(n, 0);
-    if (n <= 0){
-      clearInterval(iv); hide('adOv');
-      G.continued = true; G.fair = 50; G.phase = 'play'; G.spawnT = 1;
-      banner('감독 재개', '공정성 50 회복', 1.2); sfx.start();
-    }
-  }, 1000);
-});
-$('giveBtn').addEventListener('click', () => { hide('contOv'); endGame(false); });
 
 /* ---------- 엔딩: 감옥 ---------- */
 const J = { t: 0, list: [], slammed: false, shakeT: 0, w: 0, h: 0, s: 1, tIn: 0, tBar: 0 };
